@@ -8,8 +8,14 @@ RUN mvn dependency:go-offline
 
 COPY src /app/src
 
+# السطر ده بيبني المشروع
 RUN mvn package -DskipTests
+
+# --- التعديل هنا ---
+# بننسخ الملف لمكان ثابت واسم ثابت عشان منغلطش في المسار
+RUN cp target/*.war /app/app.war || cp target/*.jar /app/app.war
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/spring-jpa-1.0-SNAPSHOT.war"]
+# بنشغل الملف من مكانه الجديد
+CMD ["java", "-jar", "/app/app.war"]
